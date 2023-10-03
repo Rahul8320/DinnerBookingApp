@@ -36,10 +36,16 @@ POST {{host}}/api/auth/register
 
 ```json
 {
-  "firstName": "Rahul",
-  "lastName": "Dey",
-  "email": "rahul@admin.com",
-  "password": "!Admin@123"
+  "data": {
+    "id": "873d888c-058d-4f71-bb98-d6b24c2a244e",
+    "firstName": "Rahul",
+    "lastName": "Dey",
+    "email": "rahul@admin.com",
+    "token": "token"
+  },
+  "isSuccess": true,
+  "errors": null,
+  "message": "Register Successful"
 }
 ```
 
@@ -66,7 +72,15 @@ POST {{host}}/api/auth/login
 
 ```json
 {
-  "email": "rahul@admin.com",
-  "password": "!Admin@123"
+  "data": {
+    "id": "d14729d9-2be0-41c5-8e76-d6796724c11e",
+    "firstName": "first name",
+    "lastName": "last name",
+    "email": "rahul@admin.com",
+    "token": "token"
+  },
+  "isSuccess": true,
+  "errors": null,
+  "message": "Login Successful"
 }
 ```

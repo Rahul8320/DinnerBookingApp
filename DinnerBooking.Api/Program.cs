@@ -1,8 +1,15 @@
+using DinnerBooking.Api.AutoMapper;
+using DinnerBooking.Application;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 {
+    builder.Services.AddApplication();
     builder.Services.AddControllers();
+
+    // Add Auto Mapper
+    builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 }
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
