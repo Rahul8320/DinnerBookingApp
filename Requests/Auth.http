@@ -1,0 +1,22 @@
+@host=http://localhost:5134
+
+### Register Request
+POST  {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+    "firstName" : "Rahul",
+    "lastName" : "Dey",
+    "email" : "rahul@admin.com",
+    "password" : "!Admin@123"
+}
+
+
+### Login Request
+POST  {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+    "email" : "rahul@admin.com",
+    "password" : "!Admin@123"
+}
