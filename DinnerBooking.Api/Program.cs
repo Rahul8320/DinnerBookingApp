@@ -1,11 +1,12 @@
 using DinnerBooking.Api.AutoMapper;
 using DinnerBooking.Application;
+using DinnerBooking.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 {
-    builder.Services.AddApplication();
+    builder.Services.AddApplication().AddInfrastructure();
     builder.Services.AddControllers();
 
     // Add Auto Mapper
