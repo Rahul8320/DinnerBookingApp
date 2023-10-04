@@ -41,7 +41,7 @@ POST {{host}}/api/auth/register
     "firstName": "Rahul",
     "lastName": "Dey",
     "email": "rahul@admin.com",
-    "token": "token"
+    "token": "eyJhbGci....9dVpftZoMtU6_8"
   },
   "isSuccess": true,
   "errors": null,
@@ -77,7 +77,7 @@ POST {{host}}/api/auth/login
     "firstName": "first name",
     "lastName": "last name",
     "email": "rahul@admin.com",
-    "token": "token"
+    "token": "eyJhbGci....9dVpftZoMtU6_8"
   },
   "isSuccess": true,
   "errors": null,

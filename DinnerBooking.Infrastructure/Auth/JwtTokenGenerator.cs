@@ -2,12 +2,20 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using DinnerBooking.Application.Common.Interfaces.Auth;
+using DinnerBooking.Application.Common.Interfaces.Services;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DinnerBooking.Infrastructure.Auth
 {
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
+        private readonly IDateTimeProvider _dateTimeProvider;
+
+        public JwtTokenGenerator(IDateTimeProvider dateTimeProvider)
+        {
+            _dateTimeProvider = dateTimeProvider;
+        }
+
         public string GenerateToken(Guid userId, string firstName, string lastName)
         {
             var signingCredentials = new SigningCredentials(
@@ -25,7 +33,7 @@ namespace DinnerBooking.Infrastructure.Auth
 
             var securityToken = new JwtSecurityToken(
                 issuer: "DinnerBooking",
-                expires: DateTime.Now.AddDays(1),
+                expires: _dateTimeProvider.UtcNow.AddMinutes(60),
                 claims: claims,
                 signingCredentials: signingCredentials
             );
