@@ -1,28 +1,47 @@
 using DinnerBooking.Application.Common;
 using DinnerBooking.Application.Common.Interfaces.Auth;
+using DinnerBooking.Application.Common.Interfaces.Persistence;
 using DinnerBooking.Application.Dtos;
 using DinnerBooking.Application.Services.Interfaces;
+using DinnerBooking.Domain.Entities;
 
 namespace DinnerBooking.Application.Services
 {
     public class AuthService : IAuthService
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        private readonly IUserRepository _userRepository;
 
-        public AuthService(IJwtTokenGenerator jwtTokenGenerator)
+        public AuthService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
+            _userRepository = userRepository;
         }
 
         public ServiceResult Login(LoginRequestDto request)
         {
+            //! 1. Validate the user exists.
+            if (_userRepository.GetUserByEmail(request.Email) is not User user)
+            {
+                throw new Exception("Invalid Credentials!");
+            }
+
+            //! 2. Validate the password is correct.
+            if (!user.Password.Equals(request.Password))
+            {
+                throw new Exception("Invalid Credentials!");
+            }
+
+            //! 3. Create JWT Token
+            var token = _jwtTokenGenerator.GenerateToken(user.Id, user.FirstName, user.LastName);
+
             AuthResponseDto result = new()
             {
-                Id = Guid.NewGuid(),
-                FirstName = "first name",
-                LastName = "last name",
-                Email = request.Email,
-                Token = "token"
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Token = token
             };
 
             return new ServiceResult<AuthResponseDto>()
@@ -35,18 +54,28 @@ namespace DinnerBooking.Application.Services
 
         public ServiceResult Register(RegisterRequestDto request)
         {
-            //! Check if user already exists
+            //! 1. Validate the user does not exists
+            if (_userRepository.GetUserByEmail(request.Email) is not null)
+            {
+                throw new Exception("User with given email already exists!");
+            }
 
-            //! Create User (generate unique ID)
+            //! 2. Create User (generate unique ID) & Persist to DB
+            var user = new User
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                Password = request.Password
+            };
+            _userRepository.AddUser(user);
 
-            //! Create JWT Token
-            var userId = Guid.NewGuid();
-
-            var token = _jwtTokenGenerator.GenerateToken(userId, request.FirstName, request.LastName);
+            //! 3. Create JWT Token
+            var token = _jwtTokenGenerator.GenerateToken(user.Id, request.FirstName, request.LastName);
 
             AuthResponseDto result = new()
             {
-                Id = userId,
+                Id = user.Id,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,

@@ -1,13 +1,13 @@
 # Dinner Booking API
 
 - [Dinner Booking Api](#dinner-booking-api)
-    - [Auth](#auth)
-        - [Register](#register)
-            - [Register Request](#register-request)
-            - [Register Response](#register-response)
-        - [Login](#login)
-            - [Login Request](#login-request)
-            - [Login Response](#login-response)
+  - [Auth](#auth)
+    - [Register](#register)
+      - [Register Request](#register-request)
+      - [Register Response](#register-response)
+    - [Login](#login)
+      - [Login Request](#login-request)
+      - [Login Response](#login-response)
 
 ## Auth
 
@@ -17,14 +17,14 @@
 POST {{host}}/api/auth/register
 ```
 
-### Register Request 
+### Register Request
 
 ```json
 {
-    "firstName" : "Rahul",
-    "lastName" : "Dey",
-    "email" : "rahul@admin.com",
-    "password" : "!Admin@123"
+  "firstName": "first",
+  "lastName": "last",
+  "email": "test@test.com",
+  "password": "password"
 }
 ```
 
@@ -38,9 +38,9 @@ POST {{host}}/api/auth/register
 {
   "data": {
     "id": "873d888c-058d-4f71-bb98-d6b24c2a244e",
-    "firstName": "Rahul",
-    "lastName": "Dey",
-    "email": "rahul@admin.com",
+    "firstName": "first",
+    "lastName": "last",
+    "email": "test@test.com",
     "token": "eyJhbGci....9dVpftZoMtU6_8"
   },
   "isSuccess": true,
@@ -55,12 +55,12 @@ POST {{host}}/api/auth/register
 POST {{host}}/api/auth/login
 ```
 
-### Login Request 
+### Login Request
 
 ```json
 {
-    "email" : "rahul@admin.com",
-    "password" : "!Admin@123"
+  "email": "test@test.com",
+  "password": "password"
 }
 ```
 
@@ -76,7 +76,7 @@ POST {{host}}/api/auth/login
     "id": "d14729d9-2be0-41c5-8e76-d6796724c11e",
     "firstName": "first name",
     "lastName": "last name",
-    "email": "rahul@admin.com",
+    "email": "test@test.com",
     "token": "eyJhbGci....9dVpftZoMtU6_8"
   },
   "isSuccess": true,
