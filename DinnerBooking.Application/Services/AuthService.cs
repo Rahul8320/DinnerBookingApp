@@ -1,3 +1,4 @@
+using AutoMapper;
 using DinnerBooking.Application.Common;
 using DinnerBooking.Application.Common.Interfaces.Auth;
 using DinnerBooking.Application.Common.Interfaces.Persistence;
@@ -11,11 +12,13 @@ namespace DinnerBooking.Application.Services
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public AuthService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+        public AuthService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository, IMapper mapper)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public ServiceResult Login(LoginRequestDto request)
@@ -33,14 +36,12 @@ namespace DinnerBooking.Application.Services
             }
 
             //! 3. Create JWT Token
-            var token = _jwtTokenGenerator.GenerateToken(user.Id, user.FirstName, user.LastName);
+            var mappedUserDto = _mapper.Map<UserDto>(user);
+            var token = _jwtTokenGenerator.GenerateToken(mappedUserDto);
 
             AuthResponseDto result = new()
             {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
+                User = mappedUserDto,
                 Token = token
             };
 
@@ -71,14 +72,12 @@ namespace DinnerBooking.Application.Services
             _userRepository.AddUser(user);
 
             //! 3. Create JWT Token
-            var token = _jwtTokenGenerator.GenerateToken(user.Id, request.FirstName, request.LastName);
+            var mappedUserDto = _mapper.Map<UserDto>(user);
+            var token = _jwtTokenGenerator.GenerateToken(mappedUserDto);
 
             AuthResponseDto result = new()
             {
-                Id = user.Id,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
+                User = mappedUserDto,
                 Token = token
             };
 

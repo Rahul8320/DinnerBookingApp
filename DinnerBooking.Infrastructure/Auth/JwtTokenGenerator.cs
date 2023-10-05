@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using DinnerBooking.Application.Common.Interfaces.Auth;
 using DinnerBooking.Application.Common.Interfaces.Services;
+using DinnerBooking.Application.Dtos;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,7 +20,7 @@ namespace DinnerBooking.Infrastructure.Auth
             _jwtSettings = jwtOptions.Value;
         }
 
-        public string GenerateToken(Guid userId, string firstName, string lastName)
+        public string GenerateToken(UserDto userDto)
         {
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
@@ -28,9 +29,9 @@ namespace DinnerBooking.Infrastructure.Auth
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-                new Claim(JwtRegisteredClaimNames.GivenName, firstName),
-                new Claim(JwtRegisteredClaimNames.FamilyName, lastName),
+                new Claim(JwtRegisteredClaimNames.Sub, userDto.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.GivenName, userDto.FirstName),
+                new Claim(JwtRegisteredClaimNames.FamilyName, userDto.LastName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
