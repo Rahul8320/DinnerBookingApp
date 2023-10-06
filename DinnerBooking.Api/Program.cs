@@ -1,5 +1,5 @@
 using DinnerBooking.Api.AutoMapper;
-using DinnerBooking.Api.Middleware;
+using DinnerBooking.Api.Filters;
 using DinnerBooking.Application;
 using DinnerBooking.Infrastructure;
 
@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 {
     builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
-    builder.Services.AddControllers();
+    builder.Services.AddControllers(options => options.Filters.Add<ErrorHandlingFilterAttribute>());
 
     // Add Auto Mapper
     builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -17,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 {
-    app.UseMiddleware<ErrorHandlingMiddleware>();
+    // app.UseMiddleware<ErrorHandlingMiddleware>();
     app.UseHttpsRedirection();
     app.MapControllers();
     app.Run();
