@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DinnerBooking.Api.Controllers
 {
-    [ApiController]
     [Route("api/auth")]
-    public class AuthController : ControllerBase
+    public class AuthController : ApiController
     {
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
@@ -29,10 +28,7 @@ namespace DinnerBooking.Api.Controllers
                 var input = _mapper.Map<RegisterRequestDto>(request);
                 ErrorOr<ServiceResult> authResult = _authService.Register(input);
 
-                return authResult.MatchFirst(
-                    Ok,
-                    firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
-                );
+                return authResult.Match(Ok, Problem);
             }
             return BadRequest();
         }
@@ -45,10 +41,7 @@ namespace DinnerBooking.Api.Controllers
                 var input = _mapper.Map<LoginRequestDto>(request);
                 ErrorOr<ServiceResult> authResult = _authService.Login(input);
 
-                return authResult.MatchFirst(
-                    Ok,
-                    firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
-                 );
+                return authResult.Match(Ok, Problem);
             }
             return BadRequest();
         }

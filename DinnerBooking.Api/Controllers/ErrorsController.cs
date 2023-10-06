@@ -1,4 +1,3 @@
-using System.Net;
 using DinnerBooking.Application.Common.Errors;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;

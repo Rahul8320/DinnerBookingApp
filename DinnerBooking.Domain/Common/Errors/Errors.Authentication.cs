@@ -6,6 +6,6 @@ public static partial class Errors
 {
     public static class Authentication
     {
-        public static Error InvalidCredentials => Error.Conflict(code: "Auth.InvalidCredential", description: "Access Blocked! You are not Human!");
+        public static Error InvalidCredentials => Error.Validation(code: "Auth.InvalidCredential", description: "Access Blocked! You are not Human!");
     }
 }
