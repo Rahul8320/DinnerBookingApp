@@ -1,7 +1,9 @@
 using DinnerBooking.Api.AutoMapper;
+using DinnerBooking.Api.Errors;
 using DinnerBooking.Api.Filters;
 using DinnerBooking.Application;
 using DinnerBooking.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
     // builder.Services.AddControllers(options => options.Filters.Add<ErrorHandlingFilterAttribute>());
     builder.Services.AddControllers();
+
+    builder.Services.AddSingleton<ProblemDetailsFactory, DinnerBookingProblemDetailsFactory>();
 
     // Add Auto Mapper
     builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
