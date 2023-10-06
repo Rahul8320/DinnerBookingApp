@@ -1,5 +1,6 @@
 using AutoMapper;
 using DinnerBooking.Application.Common;
+using DinnerBooking.Application.Common.Errors;
 using DinnerBooking.Application.Common.Interfaces.Auth;
 using DinnerBooking.Application.Common.Interfaces.Persistence;
 using DinnerBooking.Application.Dtos;
@@ -26,13 +27,13 @@ namespace DinnerBooking.Application.Services
             //! 1. Validate the user exists.
             if (_userRepository.GetUserByEmail(request.Email) is not User user)
             {
-                throw new Exception("Invalid Credentials!");
+                throw new InvalidCredentialException();
             }
 
             //! 2. Validate the password is correct.
             if (!user.Password.Equals(request.Password))
             {
-                throw new Exception("Invalid Credentials!");
+                throw new InvalidCredentialException();
             }
 
             //! 3. Create JWT Token
@@ -58,7 +59,7 @@ namespace DinnerBooking.Application.Services
             //! 1. Validate the user does not exists
             if (_userRepository.GetUserByEmail(request.Email) is not null)
             {
-                throw new Exception("User with given email already exists!");
+                throw new DuplicateEmailException();
             }
 
             //! 2. Create User (generate unique ID) & Persist to DB
