@@ -1,12 +1,11 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
 
-namespace DinnerBooking.Api.Errors;
+namespace DinnerBooking.Api.Common.Errors;
 
 public class DinnerBookingProblemDetailsFactory : ProblemDetailsFactory
 {
