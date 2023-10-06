@@ -1,3 +1,4 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -9,7 +10,14 @@ public class ErrorHandlingFilterAttribute : ExceptionFilterAttribute
     {
         var exception = context.Exception;
 
-        var errorResult = new { error = exception.Message };
+        // var errorResult = new { error = exception.Message };
+
+        var errorResult = new ProblemDetails
+        {
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+            Title = exception.Message,
+            Status = (int)HttpStatusCode.InternalServerError,
+        };
 
         context.Result = new ObjectResult(errorResult)
         {
