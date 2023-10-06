@@ -1,7 +1,9 @@
 using AutoMapper;
+using DinnerBooking.Application.Common;
 using DinnerBooking.Application.Dtos;
 using DinnerBooking.Application.Services.Interfaces;
 using DinnerBooking.Contracts.Authentication;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinnerBooking.Api.Controllers
@@ -25,9 +27,12 @@ namespace DinnerBooking.Api.Controllers
             if (ModelState.IsValid)
             {
                 var input = _mapper.Map<RegisterRequestDto>(request);
-                var result = _authService.Register(input);
+                ErrorOr<ServiceResult> authResult = _authService.Register(input);
 
-                return Ok(result);
+                return authResult.MatchFirst(
+                    Ok,
+                    firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
+                );
             }
             return BadRequest();
         }
@@ -38,9 +43,12 @@ namespace DinnerBooking.Api.Controllers
             if (ModelState.IsValid)
             {
                 var input = _mapper.Map<LoginRequestDto>(request);
-                var result = _authService.Login(input);
+                ErrorOr<ServiceResult> authResult = _authService.Login(input);
 
-                return Ok(result);
+                return authResult.MatchFirst(
+                    Ok,
+                    firstError => Problem(statusCode: StatusCodes.Status409Conflict, title: firstError.Description)
+                 );
             }
             return BadRequest();
         }

@@ -1,11 +1,12 @@
 using AutoMapper;
 using DinnerBooking.Application.Common;
-using DinnerBooking.Application.Common.Errors;
 using DinnerBooking.Application.Common.Interfaces.Auth;
 using DinnerBooking.Application.Common.Interfaces.Persistence;
 using DinnerBooking.Application.Dtos;
 using DinnerBooking.Application.Services.Interfaces;
+using DinnerBooking.Domain.Common.Errors;
 using DinnerBooking.Domain.Entities;
+using ErrorOr;
 
 namespace DinnerBooking.Application.Services
 {
@@ -22,18 +23,18 @@ namespace DinnerBooking.Application.Services
             _mapper = mapper;
         }
 
-        public ServiceResult Login(LoginRequestDto request)
+        public ErrorOr<ServiceResult> Login(LoginRequestDto request)
         {
             //! 1. Validate the user exists.
             if (_userRepository.GetUserByEmail(request.Email) is not User user)
             {
-                throw new InvalidCredentialException();
+                return Errors.Authentication.InvalidCredentials;
             }
 
             //! 2. Validate the password is correct.
             if (!user.Password.Equals(request.Password))
             {
-                throw new InvalidCredentialException();
+                return Errors.Authentication.InvalidCredentials;
             }
 
             //! 3. Create JWT Token
@@ -54,12 +55,12 @@ namespace DinnerBooking.Application.Services
             };
         }
 
-        public ServiceResult Register(RegisterRequestDto request)
+        public ErrorOr<ServiceResult> Register(RegisterRequestDto request)
         {
             //! 1. Validate the user does not exists
             if (_userRepository.GetUserByEmail(request.Email) is not null)
             {
-                throw new DuplicateEmailException();
+                return Errors.User.DuplicateEmail;
             }
 
             //! 2. Create User (generate unique ID) & Persist to DB
