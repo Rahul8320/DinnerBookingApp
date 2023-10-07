@@ -1,4 +1,3 @@
-using DinnerBooking.Api.AutoMapper;
 using DinnerBooking.Api.Common.Errors;
 using DinnerBooking.Application;
 using DinnerBooking.Infrastructure;
@@ -13,8 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddSingleton<ProblemDetailsFactory, DinnerBookingProblemDetailsFactory>();
 
-    // Add Auto Mapper
-    builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 }
 
 var app = builder.Build();

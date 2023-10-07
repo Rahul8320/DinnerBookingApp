@@ -1,10 +1,9 @@
-using AutoMapper;
-using DinnerBooking.Application.Common;
+using DinnerBooking.Application.Authentication.Commands.Register;
+using DinnerBooking.Application.Authentication.Queries.Login;
 using DinnerBooking.Application.Dtos;
-using DinnerBooking.Application.Services.Auth.Interfaces;
-using DinnerBooking.Application.Services.Interfaces;
 using DinnerBooking.Contracts.Authentication;
 using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinnerBooking.Api.Controllers
@@ -12,24 +11,20 @@ namespace DinnerBooking.Api.Controllers
     [Route("api/auth")]
     public class AuthController : ApiController
     {
-        private readonly IAuthCommandService _authCommandService;
-        private readonly IAuthQueryService _authQueryService;
-        private readonly IMapper _mapper;
+        private readonly ISender _mediator;
 
-        public AuthController(IAuthCommandService authCommandService, IAuthQueryService authQueryService, IMapper mapper)
+        public AuthController(ISender mediator)
         {
-            _authCommandService = authCommandService;
-            _authQueryService = authQueryService;
-            _mapper = mapper;
+            _mediator = mediator;
         }
 
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest request)
+        public async Task<IActionResult> Register(RegisterRequest request)
         {
             if (ModelState.IsValid)
             {
-                var input = _mapper.Map<RegisterRequestDto>(request);
-                ErrorOr<ServiceResult> authResult = _authCommandService.Register(input);
+                var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+                ErrorOr<AuthResponseDto> authResult = await _mediator.Send(command);
 
                 return authResult.Match(Ok, Problem);
             }
@@ -37,12 +32,12 @@ namespace DinnerBooking.Api.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
             if (ModelState.IsValid)
             {
-                var input = _mapper.Map<LoginRequestDto>(request);
-                ErrorOr<ServiceResult> authResult = _authQueryService.Login(input);
+                var query = new LoginQuery(request.Email, request.Password);
+                ErrorOr<AuthResponseDto> authResult = await _mediator.Send(query);
 
                 return authResult.Match(Ok, Problem);
             }

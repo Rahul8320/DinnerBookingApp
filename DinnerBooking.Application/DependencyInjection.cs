@@ -1,9 +1,7 @@
 using DinnerBooking.Application.AutoMapper;
-using DinnerBooking.Application.Services;
-using DinnerBooking.Application.Services.Auth;
-using DinnerBooking.Application.Services.Auth.Interfaces;
-using DinnerBooking.Application.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using MediatR;
+using System.Reflection;
 
 namespace DinnerBooking.Application
 {
@@ -13,9 +11,8 @@ namespace DinnerBooking.Application
         {
             // Add Auto Mapper
             services.AddAutoMapper(typeof(AutoMapperProfile));
-
-            services.AddScoped<IAuthCommandService, AuthCommandService>();
-            services.AddScoped<IAuthQueryService, AuthQueryService>();
+            // Add Mediator
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(DependencyInjection).GetTypeInfo().Assembly));
 
             return services;
         }
