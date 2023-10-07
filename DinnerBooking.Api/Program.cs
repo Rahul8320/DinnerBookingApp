@@ -1,17 +1,15 @@
-using DinnerBooking.Api.Common.Errors;
+using DinnerBooking.Api;
 using DinnerBooking.Application;
 using DinnerBooking.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 {
-    builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
-    builder.Services.AddControllers();
-
-    builder.Services.AddSingleton<ProblemDetailsFactory, DinnerBookingProblemDetailsFactory>();
-
+    builder.Services
+        .AddPresentation()
+        .AddApplication()
+        .AddInfrastructure(builder.Configuration);
 }
 
 var app = builder.Build();
