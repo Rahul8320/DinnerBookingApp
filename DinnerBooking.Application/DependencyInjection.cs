@@ -2,6 +2,11 @@ using DinnerBooking.Application.AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using System.Reflection;
+using DinnerBooking.Application.Authentication.Commands.Register;
+using ErrorOr;
+using DinnerBooking.Application.Dtos;
+using DinnerBooking.Application.Common.Behaviors;
+using FluentValidation;
 
 namespace DinnerBooking.Application
 {
@@ -13,6 +18,9 @@ namespace DinnerBooking.Application
             services.AddAutoMapper(typeof(AutoMapperProfile));
             // Add Mediator
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(DependencyInjection).GetTypeInfo().Assembly));
+
+            services.AddScoped<IPipelineBehavior<RegisterCommand, ErrorOr<AuthResponseDto>>, ValidateRegisterCommandBehavior>();
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
         }
