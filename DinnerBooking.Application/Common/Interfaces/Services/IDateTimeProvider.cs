@@ -1,8 +1,7 @@
-namespace DinnerBooking.Application.Common.Interfaces.Services
-{
-    public interface IDateTimeProvider
-    {
-        DateTime UtcNow { get; }
+namespace DinnerBooking.Application.Common.Interfaces.Services;
 
-    }
+public interface IDateTimeProvider
+{
+    DateTime UtcNow { get; }
+
 }

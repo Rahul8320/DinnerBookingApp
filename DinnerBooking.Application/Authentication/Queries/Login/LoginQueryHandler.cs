@@ -1,5 +1,4 @@
 using AutoMapper;
-using DinnerBooking.Application.Common;
 using DinnerBooking.Application.Common.Interfaces.Auth;
 using DinnerBooking.Application.Common.Interfaces.Persistence;
 using DinnerBooking.Application.Dtos;

@@ -6,42 +6,40 @@ using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DinnerBooking.Api.Controllers
+namespace DinnerBooking.Api.Controllers;
+[Route("api/auth")]
+public class AuthController : ApiController
 {
-    [Route("api/auth")]
-    public class AuthController : ApiController
+    private readonly ISender _mediator;
+
+    public AuthController(ISender mediator)
     {
-        private readonly ISender _mediator;
+        _mediator = mediator;
+    }
 
-        public AuthController(ISender mediator)
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterRequest request)
+    {
+        if (ModelState.IsValid)
         {
-            _mediator = mediator;
-        }
+            var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+            ErrorOr<AuthResponseDto> authResult = await _mediator.Send(command);
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
+            return authResult.Match(Ok, Problem);
+        }
+        return BadRequest();
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequest request)
+    {
+        if (ModelState.IsValid)
         {
-            if (ModelState.IsValid)
-            {
-                var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
-                ErrorOr<AuthResponseDto> authResult = await _mediator.Send(command);
+            var query = new LoginQuery(request.Email, request.Password);
+            ErrorOr<AuthResponseDto> authResult = await _mediator.Send(query);
 
-                return authResult.Match(Ok, Problem);
-            }
-            return BadRequest();
+            return authResult.Match(Ok, Problem);
         }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest request)
-        {
-            if (ModelState.IsValid)
-            {
-                var query = new LoginQuery(request.Email, request.Password);
-                ErrorOr<AuthResponseDto> authResult = await _mediator.Send(query);
-
-                return authResult.Match(Ok, Problem);
-            }
-            return BadRequest();
-        }
+        return BadRequest();
     }
 }

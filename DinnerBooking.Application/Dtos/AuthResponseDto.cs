@@ -1,8 +1,7 @@
-namespace DinnerBooking.Application.Dtos
+namespace DinnerBooking.Application.Dtos;
+
+public class AuthResponseDto
 {
-    public class AuthResponseDto
-    {
-        public UserDto User { get; set; } = null!;
-        public string Token { get; set; } = String.Empty;
-    }
+    public UserDto User { get; set; } = null!;
+    public string Token { get; set; } = String.Empty;
 }

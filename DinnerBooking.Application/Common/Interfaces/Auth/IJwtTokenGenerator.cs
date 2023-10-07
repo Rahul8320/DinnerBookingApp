@@ -1,9 +1,8 @@
 using DinnerBooking.Application.Dtos;
 
-namespace DinnerBooking.Application.Common.Interfaces.Auth
+namespace DinnerBooking.Application.Common.Interfaces.Auth;
+
+public interface IJwtTokenGenerator
 {
-    public interface IJwtTokenGenerator
-    {
-        string GenerateToken(UserDto userDto);
-    }
+    string GenerateToken(UserDto userDto);
 }

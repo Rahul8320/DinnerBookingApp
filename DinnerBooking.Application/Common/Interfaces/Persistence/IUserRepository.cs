@@ -1,10 +1,9 @@
 using DinnerBooking.Domain.Entities;
 
-namespace DinnerBooking.Application.Common.Interfaces.Persistence
+namespace DinnerBooking.Application.Common.Interfaces.Persistence;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        User? GetUserByEmail(string email);
-        void AddUser(User user);
-    }
+    User? GetUserByEmail(string email);
+    void AddUser(User user);
 }
