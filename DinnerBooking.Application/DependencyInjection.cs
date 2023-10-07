@@ -1,5 +1,7 @@
 using DinnerBooking.Application.AutoMapper;
 using DinnerBooking.Application.Services;
+using DinnerBooking.Application.Services.Auth;
+using DinnerBooking.Application.Services.Auth.Interfaces;
 using DinnerBooking.Application.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +14,8 @@ namespace DinnerBooking.Application
             // Add Auto Mapper
             services.AddAutoMapper(typeof(AutoMapperProfile));
 
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IAuthCommandService, AuthCommandService>();
+            services.AddScoped<IAuthQueryService, AuthQueryService>();
 
             return services;
         }

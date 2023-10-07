@@ -1,6 +1,7 @@
 using AutoMapper;
 using DinnerBooking.Application.Common;
 using DinnerBooking.Application.Dtos;
+using DinnerBooking.Application.Services.Auth.Interfaces;
 using DinnerBooking.Application.Services.Interfaces;
 using DinnerBooking.Contracts.Authentication;
 using ErrorOr;
@@ -11,12 +12,14 @@ namespace DinnerBooking.Api.Controllers
     [Route("api/auth")]
     public class AuthController : ApiController
     {
-        private readonly IAuthService _authService;
+        private readonly IAuthCommandService _authCommandService;
+        private readonly IAuthQueryService _authQueryService;
         private readonly IMapper _mapper;
 
-        public AuthController(IAuthService authService, IMapper mapper)
+        public AuthController(IAuthCommandService authCommandService, IAuthQueryService authQueryService, IMapper mapper)
         {
-            _authService = authService;
+            _authCommandService = authCommandService;
+            _authQueryService = authQueryService;
             _mapper = mapper;
         }
 
@@ -26,7 +29,7 @@ namespace DinnerBooking.Api.Controllers
             if (ModelState.IsValid)
             {
                 var input = _mapper.Map<RegisterRequestDto>(request);
-                ErrorOr<ServiceResult> authResult = _authService.Register(input);
+                ErrorOr<ServiceResult> authResult = _authCommandService.Register(input);
 
                 return authResult.Match(Ok, Problem);
             }
@@ -39,7 +42,7 @@ namespace DinnerBooking.Api.Controllers
             if (ModelState.IsValid)
             {
                 var input = _mapper.Map<LoginRequestDto>(request);
-                ErrorOr<ServiceResult> authResult = _authService.Login(input);
+                ErrorOr<ServiceResult> authResult = _authQueryService.Login(input);
 
                 return authResult.Match(Ok, Problem);
             }
