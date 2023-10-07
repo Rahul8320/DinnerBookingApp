@@ -23,19 +23,21 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthRespons
     }
     public async Task<ErrorOr<AuthResponseDto>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
-        //! 1. Validate the user exists.
+        //! TODO: (To be deleted) For disable the async warning
+        await Task.CompletedTask;
+        // 1. Validate the user exists.
         if (_userRepository.GetUserByEmail(query.Email) is not User user)
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        //! 2. Validate the password is correct.
+        // 2. Validate the password is correct.
         if (!user.Password.Equals(query.Password))
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        //! 3. Create JWT Token
+        // 3. Create JWT Token
         var mappedUserDto = _mapper.Map<UserDto>(user);
         var token = _jwtTokenGenerator.GenerateToken(mappedUserDto);
 
