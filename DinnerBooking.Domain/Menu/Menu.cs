@@ -21,21 +21,39 @@ public sealed class Menu : AggregateRoot<MenuId>
     public HostId HostId { get; }
     public IReadOnlyList<DinnerId> DinnerIds => _dinnerIds.AsReadOnly();
     public IReadOnlyList<MenuReviewId> MenuReviewIds => _menuReviewIds.AsReadOnly();
-    public DateTime CreateDateTime { get; }
-    public DateTime UpdateDateTime { get; }
+    public DateTime CreatedDateTime { get; }
+    public DateTime UpdatedDateTime { get; }
 
-    private Menu(MenuId menuId, string name, string description, AverageRating averageRating, HostId hostId, DateTime createdDateTime, DateTime updatedDateTime) : base(menuId)
+    private Menu(
+        MenuId menuId,
+        string name,
+        string description,
+        AverageRating averageRating,
+        HostId hostId,
+        DateTime createdDateTime,
+        DateTime updatedDateTime) : base(menuId)
     {
         Name = name;
         Description = description;
         AverageRating = averageRating;
         HostId = hostId;
-        CreateDateTime = createdDateTime;
-        UpdateDateTime = updatedDateTime;
+        CreatedDateTime = createdDateTime;
+        UpdatedDateTime = updatedDateTime;
     }
 
-    public static Menu Create(string name, string description, HostId hostId)
+    public static Menu Create(
+        string name,
+        string description,
+        HostId hostId)
     {
-        return new Menu(MenuId.CreateUnique(), name, description, AverageRating.CreateNew(), hostId, DateTime.UtcNow, DateTime.UtcNow);
+        return new Menu(
+            MenuId.CreateUnique(),
+            name,
+            description,
+            AverageRating.CreateNew(),
+            hostId,
+            DateTime.UtcNow,
+            DateTime.UtcNow
+        );
     }
 }
