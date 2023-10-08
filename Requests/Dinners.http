@@ -1,0 +1,5 @@
+@host=http://localhost:5134
+@token=""
+
+### Get All Dinners
+Get {{host}}/api/dinners
