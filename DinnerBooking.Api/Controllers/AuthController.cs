@@ -5,11 +5,13 @@ using DinnerBooking.Contracts.Authentication;
 using ErrorOr;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinnerBooking.Api.Controllers;
 
 [Route("api/auth")]
+[AllowAnonymous]
 public class AuthController : ApiController
 {
     private readonly ISender _mediator;
