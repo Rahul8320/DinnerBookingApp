@@ -1,5 +1,5 @@
 @host=http://localhost:5134
-@token=""
 
 ### Get All Dinners
 Get {{host}}/api/dinners
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC9.eyJzdWIiOiIwNmMwYTFiOS01ZGE1LTQxZGUtOWE4Ni1hZjMyOTI5MjRkN2UiLCJnaXZlbl9uYW1lIjoiUmFodWwiLCJmYW1pbHlfbmFtZSI6IkRleSIsImp0aSI6IjA3ZDIyOTdjLTE3NDMtNDRjOC1hY2ZkLTdjOGM1MjJiZDI2YSIsImV4cCI6MTY5Njc1Mjc5OCwiaXNzIjoiRGlubmVyIEJvb2tpbmciLCJhdWQiOiJEaW5uZXIgQm9va2luZyJ9.LL8JHF0Ou99KPV8cTQDbuJTn8zuo9h1aoZaVE-HAC7k
