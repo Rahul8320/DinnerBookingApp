@@ -1,0 +1,25 @@
+@host=http://localhost:5134
+@hostId=change
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJEaW5uZXJCb29raW5nLkRvbWFpbi5Vc2VyQWdncmVnYXRlLlZhbHVlT2JqZWN0cy5Vc2VySWQiLCJnaXZlbl9uYW1lIjoiUmFodWwiLCJmYW1pbHlfbmFtZSI6IkRleSIsImp0aSI6IjczOWUzNjUwLTg4YmUtNDYwNy1hMWE3LWZlZWZjNGM0ZjUwMyIsImV4cCI6MTY5Njg3NTExMywiaXNzIjoiRGlubmVyIEJvb2tpbmciLCJhdWQiOiJEaW5uZXIgQm9va2luZyJ9.nAqQopPo6R3Nh_1d9-ipPzsPeqYRPFHGc7ClclHYEfQ
+
+### Create Menus
+POST {{host}}/hosts/{{hostId}}/menus
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Menu name",
+    "description": "menu description",
+    "sections":[
+        {
+            "name": "section name",
+            "description": "section description",
+            "items": [
+                {
+                    "name": "item name",
+                    "description": "item description"
+                }
+            ]
+        }
+    ]
+}
