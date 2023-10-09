@@ -6,7 +6,7 @@ using DinnerBooking.Domain.Host.ValueObjects;
 
 namespace DinnerBooking.Domain.Guest.Entity;
 
-public sealed class RatingEntity : Entity<RatingId>
+public sealed class GuestRating : Entity<RatingId>
 {
     public HostId HostId { get; }
     public DinnerId DinnerId { get; }
@@ -14,7 +14,7 @@ public sealed class RatingEntity : Entity<RatingId>
     public DateTime CreatedDateTime { get; }
     public DateTime UpdatedDateTime { get; }
 
-    private RatingEntity(
+    private GuestRating(
         RatingId ratingId,
         HostId hostId,
         DinnerId dinnerId,
@@ -30,12 +30,12 @@ public sealed class RatingEntity : Entity<RatingId>
         UpdatedDateTime = updatedDateTime;
     }
 
-    public static RatingEntity Create(HostId hostId,
+    public static GuestRating Create(HostId hostId,
         DinnerId dinnerId,
         int rating
     )
     {
-        return new RatingEntity(
+        return new GuestRating(
             RatingId.CreateUnique(),
             hostId,
             dinnerId,
