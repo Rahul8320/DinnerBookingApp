@@ -4,7 +4,7 @@ namespace DinnerBooking.Domain.HostAggregate.ValueObjects;
 
 public class HostId : ValueObject
 {
-    private Guid Value { get; }
+    public Guid Value { get; }
     private HostId(Guid value)
     {
         Value = value;
@@ -13,6 +13,11 @@ public class HostId : ValueObject
     public static HostId CreateUnique()
     {
         return new HostId(Guid.NewGuid());
+    }
+
+    public static HostId Create(Guid hostId)
+    {
+        return new HostId(hostId);
     }
 
     public override IEnumerable<object> GetEqualityComponents()

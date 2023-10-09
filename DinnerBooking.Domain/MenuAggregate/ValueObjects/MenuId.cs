@@ -4,7 +4,7 @@ namespace DinnerBooking.Domain.MenuAggregate.ValueObjects;
 
 public sealed class MenuId : ValueObject
 {
-    private Guid Value { get; }
+    public Guid Value { get; }
     private MenuId(Guid value)
     {
         Value = value;
