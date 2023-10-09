@@ -3,9 +3,9 @@ using DinnerBooking.Application.Common.Interfaces.Persistence;
 using DinnerBooking.Application.Dtos;
 using ErrorOr;
 using MediatR;
-using DinnerBooking.Domain.Entities;
 using DinnerBooking.Domain.Common.Errors;
 using AutoMapper;
+using DinnerBooking.Domain.UserAggregate;
 
 
 namespace DinnerBooking.Application.Authentication.Commands.Register;
@@ -35,13 +35,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         }
 
         // 2. Create User (generate unique ID) & Persist to DB
-        var user = new User
-        {
-            FirstName = command.FirstName,
-            LastName = command.LastName,
-            Email = command.Email,
-            Password = command.Password
-        };
+        var user = User.Create(command.FirstName, command.LastName, command.Email, command.Password);
         _userRepository.AddUser(user);
 
         // 3. Create JWT Token

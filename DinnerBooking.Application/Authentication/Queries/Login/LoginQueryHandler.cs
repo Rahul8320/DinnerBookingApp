@@ -3,7 +3,7 @@ using DinnerBooking.Application.Common.Interfaces.Auth;
 using DinnerBooking.Application.Common.Interfaces.Persistence;
 using DinnerBooking.Application.Dtos;
 using DinnerBooking.Domain.Common.Errors;
-using DinnerBooking.Domain.Entities;
+using DinnerBooking.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
 

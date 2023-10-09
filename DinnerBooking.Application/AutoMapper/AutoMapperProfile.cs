@@ -1,6 +1,6 @@
 using AutoMapper;
 using DinnerBooking.Application.Dtos;
-using DinnerBooking.Domain.Entities;
+using DinnerBooking.Domain.UserAggregate;
 
 namespace DinnerBooking.Application.AutoMapper
 {
@@ -8,7 +8,7 @@ namespace DinnerBooking.Application.AutoMapper
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, UserDto>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()));
         }
     }
 }
