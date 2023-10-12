@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 
 namespace DinnerBooking.Infrastructure;
 
@@ -21,7 +22,8 @@ public static class DependencyInjection
     {
         services.AddAuth(configuration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
+        // add db context provider
+        services.AddDbContext<AppDbContext>(options => options.UseSqlServer());
         // add repositories
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IMenuRepository, MenuRepository>();
