@@ -11,11 +11,21 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using DinnerBooking.Infrastructure.Persistence.Repository;
 
 namespace DinnerBooking.Infrastructure;
 
+/// <summary>
+/// Represents the dependency injections of the infrastructure layers.
+/// </summary>
 public static class DependencyInjection
 {
+    /// <summary>
+    /// Adds a dependency injection for repositories and database contexts.
+    /// </summary>
+    /// <param name="services">Represents application builder services</param>
+    /// <param name="configuration">Represents application builder configurations</param>
+    /// <returns>Returns a IServiceCollection interface</returns>
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
         ConfigurationManager configuration)
@@ -31,6 +41,12 @@ public static class DependencyInjection
         return services;
     }
 
+    /// <summary>
+    /// Adds dependency injections for authentications like jwt token generator
+    /// </summary>
+    /// <param name="services">Represents applications builder services</param>
+    /// <param name="configuration">Represents application builder configurations</param>
+    /// <returns>Returns a IServiceCollection interface</returns>
     public static IServiceCollection AddAuth(this IServiceCollection services, ConfigurationManager configuration)
     {
         var jwtSettings = new JwtSettings();
