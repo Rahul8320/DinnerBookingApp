@@ -22,4 +22,10 @@ public class AppDbContext : DbContext
     /// Gets or sets the Menu database table.
     /// </summary>
     public DbSet<Menu> Menus { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+        base.OnModelCreating(modelBuilder);
+    }
 }
