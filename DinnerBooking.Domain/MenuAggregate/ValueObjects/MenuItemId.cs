@@ -21,6 +21,16 @@ public class MenuItemId : ValueObject
     }
 
     /// <summary>
+    /// Creates new instance of the menu item id with the specified value.
+    /// </summary>
+    /// <param name="value">The specified value for menu item id.</param>
+    /// <returns>Returns the menu item id.</returns>
+    public static MenuItemId Create(Guid value)
+    {
+        return new MenuItemId(value);
+    }
+
+    /// <summary>
     /// Creates new instance of the menu item id.
     /// </summary>
     /// <returns>Returns the menu item id.</returns>

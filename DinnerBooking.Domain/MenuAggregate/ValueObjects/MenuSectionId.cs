@@ -21,9 +21,19 @@ public sealed class MenuSectionId : ValueObject
     }
 
     /// <summary>
+    /// Creates the new instance of menu section id with the specified value.
+    /// </summary>
+    /// <param name="value">The specified value to create menu section id.</param>
+    /// <returns>Returns the menu section id instance</returns>
+    public static MenuSectionId Create(Guid value)
+    {
+        return new MenuSectionId(value);
+    }
+
+    /// <summary>
     /// Creates the new instance of menu section id
     /// </summary>
-    /// <returns>Returns the menu item id instance</returns>
+    /// <returns>Returns the menu section id instance</returns>
     public static MenuSectionId CreateUnique()
     {
         return new MenuSectionId(Guid.NewGuid());
